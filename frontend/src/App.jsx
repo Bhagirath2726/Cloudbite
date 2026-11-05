@@ -1,0 +1,12 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home"; import Menu from "./pages/Menu"; import FoodDetails from "./pages/FoodDetails"; import Cart from "./pages/Cart"; import Checkout from "./pages/Checkout"; import Login from "./pages/Login"; import Register from "./pages/Register"; import Orders from "./pages/Orders"; import OrderTracking from "./pages/OrderTracking"; import Profile from "./pages/Profile"; import OrderSuccess from "./pages/OrderSuccess";
+import AdminLayout from "./admin/AdminLayout"; import AdminDashboard from "./admin/Dashboard"; import Foods from "./admin/Foods"; import AddFood from "./admin/AddFood"; import Categories from "./admin/Categories"; import AdminOrders from "./admin/Orders"; import Users from "./admin/Users"; import Analytics from "./admin/Analytics";
+import KitchenLayout from "./kitchen/KitchenLayout"; import KitchenDashboard from "./kitchen/KitchenDashboard";
+
+function PublicLayout(){return <><Navbar/><Routes><Route path="/" element={<Home/>}/><Route path="/menu" element={<Menu/>}/><Route path="/food/:id" element={<FoodDetails/>}/><Route path="/cart" element={<Cart/>}/><Route path="/login" element={<Login/>}/><Route path="/register" element={<Register/>}/><Route element={<ProtectedRoute roles={["customer","admin","kitchen"]}/>}><Route path="/checkout" element={<Checkout/>}/><Route path="/orders" element={<Orders/>}/><Route path="/orders/:id" element={<OrderTracking/>}/><Route path="/profile" element={<Profile/>}/><Route path="/order-success" element={<OrderSuccess/>}/></Route></Routes><Footer/></>}
+
+export default function App(){return <BrowserRouter><Toaster position="top-right"/><Routes><Route path="/admin/*" element={<ProtectedRoute roles={["admin"]}/>}><Route element={<AdminLayout/>}><Route index element={<AdminDashboard/>}/><Route path="foods" element={<Foods/>}/><Route path="foods/add" element={<AddFood/>}/><Route path="categories" element={<Categories/>}/><Route path="orders" element={<AdminOrders/>}/><Route path="users" element={<Users/>}/><Route path="analytics" element={<Analytics/>}/></Route></Route><Route path="/kitchen/*" element={<ProtectedRoute roles={["kitchen","admin"]}/>}><Route element={<KitchenLayout/>}><Route index element={<KitchenDashboard/>}/></Route></Route><Route path="*" element={<PublicLayout/>}/></Routes></BrowserRouter>}

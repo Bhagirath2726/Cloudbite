@@ -1,0 +1,2 @@
+import {Router} from "express";import {create,mine,get,all,updateStatus} from "../controllers/orderController.js";import {protect,allow} from "../middleware/auth.js";
+const r=Router();r.post("/",protect,create);r.get("/my-orders",protect,mine);r.get("/",protect,allow("admin","kitchen"),all);r.get("/:id",protect,get);r.put("/:id/status",protect,allow("admin","kitchen"),updateStatus);export default r;

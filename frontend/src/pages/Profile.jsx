@@ -1,0 +1,5 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
+import { userAPI } from "../services/api";
+export default function Profile(){const {user}=useAuth();const [name,setName]=useState(user?.name||"");const [phone,setPhone]=useState(user?.phone||"");const save=async e=>{e.preventDefault();try{await userAPI.update({name,phone});toast.success("Profile updated");}catch(err){toast.error(err.response?.data?.message||"Update failed")}};return <main className="container-page py-12"><h1 className="text-4xl font-black">My Profile</h1><form onSubmit={save} className="card mt-8 max-w-2xl p-7 space-y-4"><input className="input" value={name} onChange={e=>setName(e.target.value)} placeholder="Name"/><input className="input" value={user?.email||""} disabled placeholder="Email"/><input className="input" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Phone"/><button className="btn-primary">Save Changes</button></form></main>}

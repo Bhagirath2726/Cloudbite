@@ -1,0 +1,4 @@
+import {Router} from "express";import multer from "multer";import {v2 as cloudinary} from "cloudinary";import {protect,allow} from "../middleware/auth.js";
+const r=Router();const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:5*1024*1024}});
+r.post("/image",protect,allow("admin"),upload.single("image"),async(req,res)=>{try{if(!process.env.CLOUDINARY_CLOUD_NAME)return res.status(503).json({message:"Cloudinary is not configured"});cloudinary.config({cloud_name:process.env.CLOUDINARY_CLOUD_NAME,api_key:process.env.CLOUDINARY_API_KEY,api_secret:process.env.CLOUDINARY_API_SECRET});const result=await new Promise((resolve,reject)=>{const stream=cloudinary.uploader.upload_stream({folder:"cloudbite"},(err,r)=>err?reject(err):resolve(r));stream.end(req.file.buffer)});res.json({url:result.secure_url})}catch(e){res.status(500).json({message:"Image upload failed"})}});
+export default r;

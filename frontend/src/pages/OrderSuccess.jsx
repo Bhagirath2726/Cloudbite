@@ -1,0 +1,3 @@
+import { CheckCircle2 } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+export default function OrderSuccess(){const [p]=useSearchParams(); return <main className="container-page py-24 text-center"><CheckCircle2 className="mx-auto text-green-500" size={80}/><h1 className="mt-6 text-4xl font-black">Order Placed Successfully!</h1><p className="mx-auto mt-3 max-w-lg text-stone-500">Thank you for ordering from CloudBite. Your food is being prepared.</p><p className="mt-5 font-semibold">Order ID: {p.get("id")||"Confirmed"}</p><div className="mt-8 flex justify-center gap-3"><Link to="/orders" className="btn-primary">Track Order</Link><Link to="/menu" className="btn-secondary">Continue Shopping</Link></div></main>}
